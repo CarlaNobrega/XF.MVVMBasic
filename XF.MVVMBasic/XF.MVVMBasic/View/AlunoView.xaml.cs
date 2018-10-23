@@ -18,9 +18,9 @@ namespace XF.MVVMBasic.View
 
         public ObservableCollection<Aluno> Alunos { get; set; }
         public AlunoView(ObservableCollection<Aluno> alunos)
-        {           
-            Alunos = alunos;
-            BindingContext = Alunos;
+        {
+            BindingContext = this;
+            Alunos = alunos;            
             InitializeComponent();
 
         }

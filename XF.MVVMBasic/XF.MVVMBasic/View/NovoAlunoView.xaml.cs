@@ -12,28 +12,36 @@ using XF.MVVMBasic.ViewModel;
 
 namespace XF.MVVMBasic.View
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class NovoAlunoView : ContentPage
-	{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class NovoAlunoView : ContentPage
+    {
         public ObservableCollection<Aluno> Alunos { get; set; }
-        public NovoAlunoView (ObservableCollection<Aluno> alunos)
-		{
+        public NovoAlunoView(ObservableCollection<Aluno> alunos)
+        {
             Alunos = alunos;
             InitializeComponent();
         }
 
         private void Salvar_Clicked(object sender, EventArgs e)
         {
-            Aluno aluno = new Aluno() { Id = Guid.NewGuid(), Nome = txtNomeAluno.Text, Email = txtEmailAluno.Text, RM = txtRMAluno.Text };
-             
-            Alunos.Add(aluno);
+            if (string.IsNullOrEmpty(txtNomeAluno.Text))
+            {
+                DisplayAlert("Salvar Aluno", "Por favor preencha o nome do aluno. ", "Ok");
+            }
+            else
+            {
 
-            String msg = "O aluno " + txtNomeAluno.Text + " foi salvo com sucesso!";
-            Clear();
+                Aluno aluno = new Aluno() { Id = Guid.NewGuid(), Nome = txtNomeAluno.Text, Email = txtEmailAluno.Text, RM = txtRMAluno.Text };
+
+                Alunos.Add(aluno);
+
+                String msg = "O aluno " + txtNomeAluno.Text + " foi salvo com sucesso!";
+                Clear();
 
 
-            DisplayAlert("Salvar Aluno", msg, "Ok");
-            
+                DisplayAlert("Salvar Aluno", msg, "Ok");
+            }
+
         }
 
         public void Clear()
