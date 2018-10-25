@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
+using System.Windows.Input;
+using Xamarin.Forms;
 using XF.MVVMBasic.Model;
 
 namespace XF.MVVMBasic.ViewModel
@@ -9,34 +12,61 @@ namespace XF.MVVMBasic.ViewModel
     {
         #region Propriedades
 
-        public List<Aluno> Alunos { get; set; }
-        public string RM { get; set; }
-        public string Nome { get; set; }
-        public string Email { get; set; }
+        public ObservableCollection<Aluno> Alunos { get; set; } = new ObservableCollection<Aluno>();
+        public Aluno AlunoModel { get; set; }
+        public OnSalvar OnSalvarCMD { get; private set; }
+
+        public ICommand OnNovoCMD { get; set; }
+
         #endregion
-        
+
         public AlunoViewModel()
         {
-             new AlunoViewModel();
+            OnNovoCMD = new Command(OnNovo);
+            OnSalvarCMD = new OnSalvar(this);
         }
-        public static AlunoViewModel GetAlunos()
+
+        private void OnNovo(object obj)
         {
-            AlunoViewModel alunoViewModel = new AlunoViewModel();
+            App.AlunoVM.AlunoModel = new Aluno();
+            App.Current.MainPage.Navigation.PushAsync(new View.NovoAlunoView() { BindingContext = App.AlunoVM });
+        }
 
-            for (int i = 0; i < 10; i++)
+        public void Adicionar(Aluno paramAluno)
+        {
+            try
             {
-                var aluno = new Aluno()
-                {
-                    Id = Guid.NewGuid(),
-                    RM = "542621",
-                    Nome = "Anderson Silva",
-                    Email = "anderson@ufc.com"
-                };
+                if (paramAluno == null)
+                    throw new Exception("Null");
 
-                alunoViewModel.Alunos.Add(aluno);
+                Alunos.Add(paramAluno);
+                App.Current.MainPage.Navigation.PopAsync();
             }
-
-            return alunoViewModel;
+            catch (Exception)
+            {
+                App.Current.MainPage.DisplayAlert("Atenção", "Ocorreu um erro inesperado", "Ok");
+            }
         }
     }
+
+    public class OnSalvar : ICommand
+    {
+        AlunoViewModel alunoVM;
+        public OnSalvar(AlunoViewModel paramVM)
+        {
+            alunoVM = paramVM;               
+        }
+
+        public event EventHandler CanExecuteChanged;
+
+        public void IsHabilitado() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+
+        public bool CanExecute(object parameter) => (parameter != null) && !string.IsNullOrWhiteSpace(((Aluno)parameter).Nome);
+
+        public void Execute(object parameter)
+        {
+            alunoVM.Adicionar(parameter as Aluno);
+        }
+    }
+
 }

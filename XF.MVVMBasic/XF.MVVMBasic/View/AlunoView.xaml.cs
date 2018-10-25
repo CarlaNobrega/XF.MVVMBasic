@@ -16,11 +16,8 @@ namespace XF.MVVMBasic.View
 	public partial class AlunoView : ContentPage
 	{       
 
-        public ObservableCollection<Aluno> Alunos { get; set; }
-        public AlunoView(ObservableCollection<Aluno> alunos)
+        public AlunoView()
         {            
-            Alunos = alunos;
-            BindingContext = Alunos;
             InitializeComponent();
 
         }

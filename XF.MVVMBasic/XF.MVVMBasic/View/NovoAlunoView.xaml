@@ -4,21 +4,29 @@
              x:Class="XF.MVVMBasic.View.NovoAlunoView">
     <ContentPage.Content>
         <StackLayout Padding="10">
-            
+
             <Label Text="Nome do Aluno:" />
-            <Entry x:Name="txtNomeAluno" Placeholder="Informe o Nome do Aluno" FontSize="Small"  />
-            
+            <Entry x:Name="txtNomeAluno" Placeholder="Informe o Nome do Aluno" FontSize="Small"
+                   Text="{Binding AlunoModel.Nome}" />
+
             <StackLayout>
                 <Label Text="RM do Aluno:" />
-                <Entry x:Name="txtRMAluno"  Placeholder="Informe o RM do Aluno" FontSize="Small"  />
+                <Entry x:Name="txtRMAluno"  Placeholder="Informe o RM do Aluno" FontSize="Small"  
+                       Text="{Binding AlunoModel.RM}" />
+
             </StackLayout>
 
             <StackLayout>
                 <Label Text="E-mail do Aluno:" />
-                <Entry x:Name="txtEmailAluno"  Placeholder="Informe o E-mail do Aluno" FontSize="Small"  />                
+                <Entry x:Name="txtEmailAluno"  Placeholder="Informe o E-mail do Aluno" FontSize="Small"
+                       Text="{Binding AlunoModel.Email}" />
             </StackLayout>
 
-            <Button x:Name="btnSalvar" Text="Enviar" Clicked="Salvar_Clicked" />
+            <StackLayout Orientation="Horizontal">
+                <Button x:Name="btnSalvar" Text="Salvar" Command="{Binding OnSalvarCMD}" CommandParameter="{Binding AlunoModel}" />
+                <Button x:Name="btnCancelar" Text="Cancelar" />
+            </StackLayout>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

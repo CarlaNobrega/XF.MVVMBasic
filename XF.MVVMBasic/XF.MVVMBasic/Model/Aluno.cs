@@ -8,7 +8,19 @@ namespace XF.MVVMBasic.Model
     {
         public Guid Id { get; set; }
         public string RM { get; set; }
-        public string Nome { get; set; }
+        private string nome;
+
+        public string Nome
+        {
+            get { return nome; }
+
+            set
+            {
+                nome = value;
+                App.AlunoVM.OnSalvarCMD.IsHabilitado();
+            }
+        }
+
         public string Email { get; set; }
     }
 }

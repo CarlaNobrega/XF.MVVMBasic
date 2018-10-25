@@ -3,12 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="XF.MVVMBasic.View.AlunoView"
              Title="Lista Alunos">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Adicionar" Command="{Binding OnNovoCMD}" Order="Primary" Priority="1" />
+    </ContentPage.ToolbarItems>
+    
+    
     <ContentPage.Content>
-
+        <!--<Button x:Name="btnExcluir" Text="Excluir Alunos" Clicked="Excluir_Clicked" />-->
         <ListView x:Name="lstView" ItemsSource="{Binding Alunos}" BackgroundColor="White">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Text="Remover" />
+                        </ViewCell.ContextActions>
                         <ViewCell.View>
                             <StackLayout>                                
 

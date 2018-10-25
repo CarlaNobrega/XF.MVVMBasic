@@ -10,13 +10,21 @@ namespace XF.MVVMBasic
 {
     public partial class App : Application
     {
+        #region ViewModels
+        public static AlunoViewModel AlunoVM { get; set; }
+        #endregion
+
         public App()
         {
-            ObservableCollection<Aluno> alunos = new ObservableCollection<Aluno>();
+            InitializarVMs();
 
             InitializeComponent();
-            MainPage = new
-           NavigationPage(new View.MainPage(alunos));
-        }        
+            MainPage = new NavigationPage(new View.AlunoView() { BindingContext = App.AlunoVM });
+        }
+
+        private void InitializarVMs()
+        {
+            if (AlunoVM == null) AlunoVM = new AlunoViewModel();
+        }
     }
 }
