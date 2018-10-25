@@ -16,6 +16,8 @@ namespace XF.MVVMBasic.ViewModel
         public Aluno AlunoModel { get; set; }
         public OnSalvar OnSalvarCMD { get; private set; }
 
+        public OnDeletar OnDeletarCMD { get; private set; }
+
         public ICommand OnNovoCMD { get; set; }
 
         #endregion
@@ -24,6 +26,7 @@ namespace XF.MVVMBasic.ViewModel
         {
             OnNovoCMD = new Command(OnNovo);
             OnSalvarCMD = new OnSalvar(this);
+            OnDeletarCMD = new OnDeletar(this);
         }
 
         private void OnNovo(object obj)
@@ -40,6 +43,22 @@ namespace XF.MVVMBasic.ViewModel
                     throw new Exception("Null");
 
                 Alunos.Add(paramAluno);
+                App.Current.MainPage.Navigation.PopAsync();
+            }
+            catch (Exception)
+            {
+                App.Current.MainPage.DisplayAlert("Atenção", "Ocorreu um erro inesperado", "Ok");
+            }
+        }
+
+        public void Deletar(Aluno paramAluno)
+        {
+            try
+            {
+                if (paramAluno == null)
+                    throw new Exception("Null");
+
+                Alunos.Remove(paramAluno);
                 App.Current.MainPage.Navigation.PopAsync();
             }
             catch (Exception)
@@ -66,6 +85,22 @@ namespace XF.MVVMBasic.ViewModel
         public void Execute(object parameter)
         {
             alunoVM.Adicionar(parameter as Aluno);
+        }
+    }
+
+    public class OnDeletar : ICommand
+    {
+        AlunoViewModel alunoVM;
+        public OnDeletar(AlunoViewModel paramVM)
+        {
+            alunoVM = paramVM;
+        }
+
+        public event EventHandler CanExecuteChanged;
+        public bool CanExecute(object parameter) => (parameter != null);
+        public void Execute(object parameter)
+        {
+            alunoVM.Deletar(parameter as Aluno);
         }
     }
 

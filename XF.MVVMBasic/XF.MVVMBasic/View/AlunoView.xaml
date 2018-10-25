@@ -3,45 +3,48 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="XF.MVVMBasic.View.AlunoView"
              Title="Lista Alunos">
-    
+
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Adicionar" Command="{Binding OnNovoCMD}" Order="Primary" Priority="1" />
     </ContentPage.ToolbarItems>
-    
-    
+
+
     <ContentPage.Content>
-        <!--<Button x:Name="btnExcluir" Text="Excluir Alunos" Clicked="Excluir_Clicked" />-->
-        <ListView x:Name="lstView" ItemsSource="{Binding Alunos}" BackgroundColor="White">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <ViewCell.ContextActions>
-                            <MenuItem Text="Remover" />
-                        </ViewCell.ContextActions>
-                        <ViewCell.View>
-                            <StackLayout>                                
 
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="Nome do Aluno: "/>
-                                    <Label Text="{Binding Alunos.Nome}"/>
+        <StackLayout Padding="20">
+
+            <ListView x:Name="lstView" ItemsSource="{Binding Alunos}" BackgroundColor="White">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.ContextActions>
+                                <MenuItem Text="Remover" IsDestructive="True" Command="{Binding OnDeletarCMD}" />
+                            </ViewCell.ContextActions>
+                            <ViewCell.View>
+                                <StackLayout>                                  
+
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Nome do Aluno: "/>
+                                        <Label Text="{Binding Nome}"/>
+                                    </StackLayout>
+
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Email do Aluno: "/>
+                                        <Label Text="{Binding Email}"/>
+                                    </StackLayout>
+
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="RM do Aluno: "/>
+                                        <Label Text="{Binding RM}"/>
+                                    </StackLayout>
+
                                 </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
 
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="RM do Aluno: "/>
-                                    <Label Text="{Binding RM}"/>
-                                </StackLayout>
-
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="RM do Aluno: "/>
-                                    <Label Text="{Binding Email}"/>
-                                </StackLayout>
-
-                            </StackLayout>
-                        </ViewCell.View>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        
     </ContentPage.Content>
 </ContentPage>
